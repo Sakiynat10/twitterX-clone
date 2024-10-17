@@ -69,8 +69,8 @@ function RegisterStep1({setData,setStep}:{setData:Dispatch<SetStateAction<{name:
                 setData(values);
                 setStep(2);
             }
-        }catch(error:any){
-            if(error.response.data.error){
+        }catch(error:unknown){
+            if(axios.isAxiosError(error) && error.response?.data?.error){
                 setError(error.response.data.error)
             }else{
                 setError("Something went wrong.Please try again later")
@@ -149,8 +149,8 @@ function RegisterStep2({data}:{data:{name:string; email:string}}) {
             if(response.success){
                 registerModal.onClose();
             }
-        }catch(error:any){
-            if(error.response.data.error){
+        }catch(error:unknown){
+            if(axios.isAxiosError(error) && error.response?.data?.error){
                 setError(error.response.data.error)
             }else{
                 setError("Something went wrong.Please try again later")

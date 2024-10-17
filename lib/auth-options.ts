@@ -1,4 +1,4 @@
-import { AuthOptions } from "next-auth";
+import { AuthOptions, Session } from "next-auth";
 import GitHubProvider from "next-auth/providers/github"
 export const authOptions:AuthOptions = {
     providers:[
@@ -8,7 +8,7 @@ export const authOptions:AuthOptions = {
         }),
     ],
     callbacks:{
-        async session({session}:any){
+        async session({session}:{session: Session}){
             console.log(session);
             
             return session;
