@@ -23,7 +23,7 @@ import { loginScheme } from '@/lib/validation';
 export default function LoginModal() {
   const [error, setError] = useState("");
 
-  const loginModal = useLoginModal(); ``
+  const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
 
   const onToggle = useCallback(() => {
@@ -46,8 +46,8 @@ export default function LoginModal() {
         signIn("credentials", values);
         loginModal.onClose();
       }
-    } catch (error: any) {
-      if (error.response.data.error) {
+    } catch (error:unknown) {
+      if (axios.isAxiosError(error) && error.response?.data?.error) {
         setError(error.response.data.error);
       } else {
         setError("Something went wrong. Please try again later.");
