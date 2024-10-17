@@ -1,11 +1,29 @@
+"use client"
 import Image from "next/image";
 import Button from "@/components/ui/button";
 import {FcGoogle} from "react-icons/fc";
 import {AiFillGithub} from "react-icons/ai";
+import useRegisterModal from "@/hooks/useRegisterModal";
+import {useCallback} from "react";
+import RegisterModal from "@/components/modals/register-modal";
+import useLoginModal from "@/hooks/useLoginModal";
+import LoginModal from "@/components/modals/login-modal";
 
 export default function Auth(){
+    const registerModal = useRegisterModal();
+    const loginModal = useLoginModal()
+
+    const onOpenRegisterModal = useCallback(() => {
+        registerModal.onOpen();
+    },[registerModal])
+
+    const onOpenLoginModal = useCallback(() => {
+        loginModal.onOpen();
+    },[loginModal])
     return(
         <>
+            <RegisterModal/>
+            <LoginModal/>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-screen">
                 <Image
                     src={"/images/x.svg"}
@@ -34,7 +52,7 @@ export default function Auth(){
                                 </div>
                             } fullWidth={true} secondary={true} />
                             <Button label={
-                                <div className={"flex gap-2 items-center justify-center"}>
+                                <div className={"flex gap-2 items-center justify-center"} >
                                     <AiFillGithub/>
                                     Sign up with GitHub
                                 </div>
@@ -44,14 +62,14 @@ export default function Auth(){
                                     <p className={"mx-4"}>or</p>
                                 <div className={"h-px bg-gray-700 w-1/2"}/>
                             </div>
-                            <Button label={"Create account"} fullWidth={true} />
+                            <Button label={"Create account"} fullWidth={true} onClick={onOpenRegisterModal} />
                         </div>
                     </div>
                     <div className={"w-full  md:w-[60%]"} >
                         <h3 className={"font-medium text-xl mb-4"}>
                             Already have an account?
                         </h3>
-                        <Button label={"Sign in"} fullWidth={true} outline={true} />
+                        <Button onClick={onOpenLoginModal} label={"Sign in"} fullWidth={true} outline={true} />
                     </div>
                 </div>
             </div>
