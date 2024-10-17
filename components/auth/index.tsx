@@ -51,7 +51,7 @@ export default function Auth(){
                                     <FcGoogle/>
                                     Sign up with Google
                                 </div>
-                            } fullWidth={true} secondary={true} />
+                            } fullWidth={true} secondary={true}  />
                             <Button label={
                                 <div className={"flex gap-2 items-center justify-center"} onClick={() => signIn("github")} >
                                     <AiFillGithub/>
