@@ -8,6 +8,7 @@ import {useCallback} from "react";
 import RegisterModal from "@/components/modals/register-modal";
 import useLoginModal from "@/hooks/useLoginModal";
 import LoginModal from "@/components/modals/login-modal";
+import { signIn } from "next-auth/react";
 
 export default function Auth(){
     const registerModal = useRegisterModal();
@@ -52,7 +53,7 @@ export default function Auth(){
                                 </div>
                             } fullWidth={true} secondary={true} />
                             <Button label={
-                                <div className={"flex gap-2 items-center justify-center"} >
+                                <div className={"flex gap-2 items-center justify-center"} onClick={() => signIn("github")} >
                                     <AiFillGithub/>
                                     Sign up with GitHub
                                 </div>
