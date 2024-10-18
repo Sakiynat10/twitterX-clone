@@ -1,16 +1,37 @@
 import { AuthOptions, Session } from "next-auth";
-import GitHubProvider from "next-auth/providers/github"
+import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+import { connectToDatabase } from "./mognoose";
+import User from './../database/user.model';
 export const authOptions:AuthOptions = {
     providers:[
         GitHubProvider({
-            clientId:process.env.GITHUB_CLIENT_ID!,
-            clientSecret:process.env.GITHUB_CLIENT_SECRET!,
+            clientId: process.env.GITHUB_CLIENT_ID!,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
         }),
     ],
     callbacks:{
-        async session({session}:{session: Session}){
-            console.log(session);
+        async session({session}:any){
+            await connectToDatabase();
             
+            const isExistingUser = await User.findOne({email:session.user.email})
+
+            if(!isExistingUser){
+                const newUser = await User.create({
+                    email:session.user.email,
+                    name:session.user.name,
+                    profileImage:session.user.image,
+                });
+
+                session.currentuser = newUser;
+            }
+
+            session.currentuser = isExistingUser;
+
             return session;
         },
     },
